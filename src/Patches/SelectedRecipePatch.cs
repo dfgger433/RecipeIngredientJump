@@ -59,6 +59,9 @@ namespace CasualtiesUnknown.RecipeIngredientJump.Patches
             var info = text.textInfo;
             if (info == null || info.characterInfo == null) return;
 
+            var items = recipe.GetItemsForRecipeThorough();
+            bool hideSatisfied = RecipeIngredientJumpPlugin.HideCandidatesWhenSatisfied.Value;
+
             int ingredientIndex = 0;
             for (int c = 0; c < info.characterCount; c++)
             {
@@ -69,10 +72,14 @@ namespace CasualtiesUnknown.RecipeIngredientJump.Patches
                 if (character.elementType != TMP_TextElementType.Sprite) continue;
                 if (!IsIngredientMarker(character.spriteIndex)) continue;
 
-                var requirement = recipe.items[ingredientIndex];
+                int index = ingredientIndex;
+                var requirement = recipe.items[index];
                 ingredientIndex++;
 
                 if (requirement == null) continue;
+
+                if (hideSatisfied && items != null && index < items.Count && items[index] != null)
+                    continue;
 
                 var candidates = RecipeJumpService.FindCandidates(requirement);
                 if (candidates.Count < 2) continue;
