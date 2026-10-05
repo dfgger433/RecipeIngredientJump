@@ -7,9 +7,6 @@ namespace CasualtiesUnknown.RecipeIngredientJump
 {
     internal static class RecipeJumpPreview
     {
-        private const float CardWidth = 560f;
-        private const float CardPadding = 14f;
-        private const float CardSpacing = 8f;
         private const float IconGap = 10f;
         private const float MaxScreenHeightRatio = 0.6f;
 
@@ -82,7 +79,8 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             if (canvas == null) return;
 
             cardCanvas = canvas;
-            cardRoot = new GameObject("RecipeJumpPreview", typeof(RectTransform), typeof(Image));
+            cardRoot = new GameObject("RecipeJumpPreview", typeof(RectTransform));
+            NativeStyle.SetUiLayer(cardRoot);
             cardRoot.transform.SetParent(canvas.transform, false);
             cardRoot.transform.SetAsLastSibling();
 
@@ -90,20 +88,19 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             cardRect.anchorMin = new Vector2(0.5f, 0.5f);
             cardRect.anchorMax = new Vector2(0.5f, 0.5f);
             cardRect.pivot = new Vector2(0.5f, 0.5f);
-            cardRect.sizeDelta = new Vector2(CardWidth, 120f);
+            cardRect.sizeDelta = new Vector2(NativeStyle.Scaled(NativeStyle.CardWidth), NativeStyle.Scaled(120f));
 
-            var background = cardRoot.GetComponent<Image>();
-            background.color = new Color(0.04f, 0.04f, 0.04f, 0.96f);
+            // 原生九宫格面板底（uiBlockSmall）
+            var background = cardRoot.AddComponent<Image>();
+            background.sprite = NativeStyle.PanelSprite;
+            background.type = background.sprite != null ? Image.Type.Sliced : Image.Type.Simple;
+            background.color = NativeStyle.PanelColor;
             background.raycastTarget = false;
 
-            var outline = cardRoot.AddComponent<Outline>();
-            outline.effectColor = new Color(0.75f, 0.75f, 0.75f, 1f);
-            outline.effectDistance = new Vector2(2f, -2f);
-            outline.useGraphicAlpha = false;
-
             var layout = cardRoot.AddComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset((int)CardPadding, (int)CardPadding, (int)CardPadding, (int)CardPadding);
-            layout.spacing = CardSpacing;
+            int padding = Mathf.RoundToInt(NativeStyle.Scaled(NativeStyle.Padding));
+            layout.padding = new RectOffset(padding, padding, padding, padding);
+            layout.spacing = NativeStyle.Scaled(NativeStyle.Spacing);
             layout.childAlignment = TextAnchor.UpperCenter;
             layout.childControlWidth = true;
             layout.childControlHeight = true;
@@ -114,10 +111,25 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-            nameText = CreateText(cardRect, "Name", GetTemplate(cam, 5));
-            nameText.alignment = TextAlignmentOptions.Center;
+            // 原生标题栏（uiBlockNano + 标题栏色）
+            var titleBar = NativeStyle.Panel("TitleBar", cardRect, NativeStyle.NanoSprite, NativeStyle.TitleBar);
+            float titleHeight = NativeStyle.Scaled(NativeStyle.TitleHeight);
+            titleBar.rectTransform.sizeDelta = new Vector2(0f, titleHeight);
+            var titleLayout = titleBar.gameObject.AddComponent<LayoutElement>();
+            titleLayout.minHeight = titleHeight;
+            titleLayout.preferredHeight = titleHeight;
+            titleLayout.flexibleWidth = 1f;
+
+            nameText = CreateText(titleBar.transform, "Title", GetTemplate(cam, 5), 1.05f, NativeStyle.TextColor,
+                TextAlignmentOptions.Left, TextOverflowModes.Truncate);
+            var nameRect = nameText.rectTransform;
+            nameRect.anchorMin = Vector2.zero;
+            nameRect.anchorMax = Vector2.one;
+            nameRect.offsetMin = new Vector2(NativeStyle.Scaled(10f), 0f);
+            nameRect.offsetMax = new Vector2(-NativeStyle.Scaled(10f), 0f);
 
             var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+            NativeStyle.SetUiLayer(iconGo);
             iconGo.transform.SetParent(cardRect, false);
             iconImage = iconGo.GetComponent<Image>();
             iconImage.preserveAspect = true;
@@ -126,11 +138,11 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             iconLayout.preferredWidth = 110f;
             iconLayout.preferredHeight = 110f;
 
-            ingredientsText = CreateText(cardRect, "Ingredients", GetTemplate(cam, 8));
-            ingredientsText.alignment = TextAlignmentOptions.TopLeft;
+            ingredientsText = CreateText(cardRect, "Ingredients", GetTemplate(cam, 8), 1f, NativeStyle.TextColor,
+                TextAlignmentOptions.TopLeft, TextOverflowModes.Overflow);
 
-            infoText = CreateText(cardRect, "Info", GetTemplate(cam, 10));
-            infoText.alignment = TextAlignmentOptions.TopLeft;
+            infoText = CreateText(cardRect, "Info", GetTemplate(cam, 10), 0.85f, NativeStyle.TextDim,
+                TextAlignmentOptions.TopLeft, TextOverflowModes.Overflow);
 
             cardRoot.AddComponent<RecipeJumpPreviewBehaviour>();
             cardRoot.SetActive(false);
@@ -143,29 +155,22 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             return panel.GetChild(childIndex).GetComponent<TextMeshProUGUI>();
         }
 
-        private static TextMeshProUGUI CreateText(RectTransform parent, string name, TextMeshProUGUI template)
+        private static TextMeshProUGUI CreateText(Transform parent, string name, TextMeshProUGUI template,
+            float sizeMult, Color color, TextAlignmentOptions alignment, TextOverflowModes overflow)
         {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
+            // 字体沿用游戏自身的像素字体（Retro GamingPix），字号按原生规范缩放
+            var text = NativeStyle.Text(name, parent, template != null ? template.font : null,
+                NativeStyle.FontSize(sizeMult), alignment);
 
-            var text = go.AddComponent<TextMeshProUGUI>();
             if (template != null)
             {
-                text.font = template.font;
-                text.fontSharedMaterial = template.fontSharedMaterial;
-                text.fontSize = template.fontSize;
-                text.enableAutoSizing = template.enableAutoSizing;
-                text.fontSizeMin = template.fontSizeMin;
-                text.fontSizeMax = template.fontSizeMax;
-                text.color = template.color;
+                if (template.fontSharedMaterial != null) text.fontSharedMaterial = template.fontSharedMaterial;
                 text.fontStyle = template.fontStyle;
                 text.margin = template.margin;
             }
 
-            text.richText = true;
-            text.enableWordWrapping = true;
-            text.raycastTarget = false;
-            text.alignment = TextAlignmentOptions.TopLeft;
+            text.color = color;
+            text.overflowMode = overflow;
             return text;
         }
 

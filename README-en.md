@@ -12,7 +12,7 @@ This plugin makes navigating recipes on the crafting screen much easier:
 - When an ingredient has multiple producer recipes, hover an icon to see a scaled-down recipe page
 - A "USES" button on the right: see which recipes consume the result of the currently selected recipe
 
-Version: `1.0.8`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
+Version: `1.0.9`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
 
 ## Features
 
@@ -30,7 +30,7 @@ In the requirements list on the crafting screen, click any ingredient (the whole
 
 When several recipes can produce the same ingredient, small icons appear to the right of the ingredient line:
 
-- Hover: a scaled-down recipe page pops up on the left of the icon (name, result icon, requirements, crafting info)
+- Hover: a scaled-down recipe page pops up on the left of the icon (name, result icon, requirements, crafting info), drawn in the game's native UI style (native 9-slice panel `uiBlockSmall` + title bar `uiBlockNano` + native pixel font + native sizes/colors)
 - Click: jump to that recipe
 - Candidate icons are ordered by: craftable now → missing materials but some are already held → no materials at all; within the same tier normal recipes come first, then lower INT
 - Clicking the ingredient line itself jumps to the top-ranked candidate recipe
@@ -54,7 +54,7 @@ A "USES" button is added on the right side of the crafting panel (automatically 
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. Launch the game; the log line `材料跳转配方 v1.0.8 已加载` means it loaded successfully
+3. Launch the game; the log line `材料跳转配方 v1.0.9 已加载` means it loaded successfully
 
 ## Configuration
 
@@ -109,6 +109,7 @@ foreach (RecipeUsage usage in usages)
 ## Compatibility
 
 - **EMI for CU**: the uses button is automatically placed below EMI's "RECIPE / TREE / CATALOG" tabs, no overlap
+- **No extra dependencies**: the native UI look of the hover preview is implemented in-house (sprites and font come from the game itself; style conventions referenced from NativeUILib), so **NativeUILib does not need to be installed**
 - **QoL Unknown / ItemCountDisplay**: this plugin only appends TMP links and its own icons; it never modifies other mods' objects
 - **KrokMP and other multiplayer mods**: everything is local UI only, no network traffic
 - Jumps only call the game's `PlayerCamera.SelectRecipe`; the left recipe list is never rebuilt or scrolled
@@ -145,6 +146,8 @@ This project was developed with the assistance of an AI large language model.
 Code: DeepSeek (`deepseek-v4-flash-vision-exp`)
 
 Button and list style reference: EMI for CU (exmeow)
+
+Native UI style reference: NativeUILib (Dylanvip2024, MIT)
 
 ## License
 

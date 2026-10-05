@@ -12,7 +12,7 @@ English: [README-en.md](README-en.md)
 - 同一材料有多个配方时，悬停图标显示缩小版配方页
 - 右侧「用途」按钮：查看当前配方产物可以用于哪些配方
 
-插件版本：`1.0.8`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
+插件版本：`1.0.9`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
 
 ## 功能与使用
 
@@ -30,7 +30,7 @@ English: [README-en.md](README-en.md)
 
 当同一材料有多个配方可产出时，材料行右侧会出现对应数量的小图标：
 
-- 悬停图标：在图标左侧弹出缩小版配方页（配方名、结果图标、材料需求、制作信息）
+- 悬停图标：在图标左侧弹出缩小版配方页（配方名、结果图标、材料需求、制作信息），使用游戏原生 UI 风格绘制（原生九宫格面板 `uiBlockSmall` + 标题栏 `uiBlockNano` + 原生像素字体 + 原生尺寸/配色）
 - 点击图标：跳转到该配方
 - 候选图标按「可制作 → 缺材料但已有部分 → 一种材料都没有」排序；同一档内普通配方优先、INT 低者优先
 - 直接点击材料行：跳转到排序最靠前的候选配方
@@ -54,7 +54,7 @@ English: [README-en.md](README-en.md)
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. 启动游戏，日志出现 `材料跳转配方 v1.0.8 已加载` 即安装成功
+3. 启动游戏，日志出现 `材料跳转配方 v1.0.9 已加载` 即安装成功
 
 ## 配置
 
@@ -109,6 +109,7 @@ foreach (RecipeUsage usage in usages)
 ## 兼容性
 
 - **EMI for CU**：用途按钮自动排在 EMI 的「配方 / 合成树 / 图鉴」标签下方，不会重叠
+- **无额外依赖**：悬停预览卡片的原生 UI 风格为插件自带实现（贴图/字体取自游戏本体，样式规范参考 NativeUILib），**不需要**安装 NativeUILib 或其它前置模组
 - **QoL Unknown / ItemCountDisplay**：本插件只追加 TMP link 与自己创建的图标，不修改其它 mod 的对象
 - **KrokMP 等联机 mod**：所有功能均为本地 UI 操作，不发送任何网络数据
 - 跳转只调用游戏的 `PlayerCamera.SelectRecipe`，不会重建或滚动左侧配方列表
@@ -145,6 +146,8 @@ dotnet build -c Release
 代码：DeepSeek（`deepseek-v4-flash-vision-exp`）
 
 按钮与列表风格参考：EMI for CU（exmeow）
+
+原生 UI 风格参考：NativeUILib（Dylanvip2024，MIT）
 
 ## 许可证
 
