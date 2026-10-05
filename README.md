@@ -12,7 +12,7 @@ English: [README-en.md](README-en.md)
 - 同一材料有多个配方时，悬停图标显示缩小版配方页
 - 右侧「用途」按钮：查看当前配方产物可以用于哪些配方
 
-插件版本：`1.0.7`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
+插件版本：`1.0.8`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
 
 ## 功能与使用
 
@@ -32,7 +32,8 @@ English: [README-en.md](README-en.md)
 
 - 悬停图标：在图标左侧弹出缩小版配方页（配方名、结果图标、材料需求、制作信息）
 - 点击图标：跳转到该配方
-- 直接点击材料行：跳转到第一个候选配方
+- 候选图标按「可制作 → 缺材料但已有部分 → 一种材料都没有」排序；同一档内普通配方优先、INT 低者优先
+- 直接点击材料行：跳转到排序最靠前的候选配方
 
 ### 3. 用途查询按钮（EMI 风格）
 
@@ -53,7 +54,7 @@ English: [README-en.md](README-en.md)
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. 启动游戏，日志出现 `材料跳转配方 v1.0.7 已加载` 即安装成功
+3. 启动游戏，日志出现 `材料跳转配方 v1.0.8 已加载` 即安装成功
 
 ## 配置
 

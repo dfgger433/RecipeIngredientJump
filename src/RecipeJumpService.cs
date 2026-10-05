@@ -28,6 +28,7 @@ namespace CasualtiesUnknown.RecipeIngredientJump
                 if (string.IsNullOrEmpty(requirement.specificId)) return candidates;
 
                 AddProducers(candidates, requirement.specificId, requirement.isLiquid);
+                SortCandidates(candidates);
 
                 return candidates;
             }
@@ -40,20 +41,76 @@ namespace CasualtiesUnknown.RecipeIngredientJump
                 AddProducers(candidates, exampleId, requirement.isLiquid);
             }
 
-            var others = new List<Recipe>();
             foreach (var recipe in Recipes.recipes)
             {
                 if (!IsEligible(recipe)) continue;
                 if (candidates.Contains(recipe)) continue;
                 if (!ResultMeetsQuality(recipe, requirement.quality, requirement.isLiquid)) continue;
 
-                others.Add(recipe);
+                candidates.Add(recipe);
             }
 
-            others.Sort(CompareByRepairThenInt);
-            candidates.AddRange(others);
+            SortCandidates(candidates);
 
             return candidates;
+        }
+
+        // 候选排序：1) 现在就能制作 2) 缺材料但已拥有其中一部分 3) 一种材料都没有。
+        // 同一档内普通配方优先，再按 INT 从低到高。
+        private static void SortCandidates(List<Recipe> candidates)
+        {
+            if (candidates == null || candidates.Count <= 1) return;
+
+            var entries = new List<CandidateEntry>(candidates.Count);
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                entries.Add(new CandidateEntry
+                {
+                    Recipe = candidates[i],
+                    Tier = GetCraftTier(candidates[i])
+                });
+            }
+
+            entries.Sort(CompareCandidates);
+
+            candidates.Clear();
+            for (int i = 0; i < entries.Count; i++)
+            {
+                candidates.Add(entries[i].Recipe);
+            }
+        }
+
+        private static int CompareCandidates(CandidateEntry left, CandidateEntry right)
+        {
+            if (left.Tier != right.Tier) return left.Tier.CompareTo(right.Tier);
+            if (left.Recipe.isRepair != right.Recipe.isRepair) return left.Recipe.isRepair ? 1 : -1;
+            return left.Recipe.INT.CompareTo(right.Recipe.INT);
+        }
+
+        // 0 = 可制作；1 = 缺材料但已有部分；2 = 没有任何材料
+        private static int GetCraftTier(Recipe recipe)
+        {
+            if (recipe?.items == null) return 2;
+            if (recipe.items.Count == 0) return 0;
+
+            var matched = recipe.GetItemsForRecipeThorough();
+            if (matched == null) return 2;
+
+            int have = 0;
+            for (int i = 0; i < matched.Count; i++)
+            {
+                if (matched[i] != null) have++;
+            }
+
+            if (have == 0) return 2;
+            if (have >= recipe.items.Count) return 0;
+            return 1;
+        }
+
+        private sealed class CandidateEntry
+        {
+            public Recipe Recipe;
+            public int Tier;
         }
 
         // 普通配方优先；修理配方（如「电路板修复」）排在后面，
@@ -75,12 +132,6 @@ namespace CasualtiesUnknown.RecipeIngredientJump
                     target.Add(recipe);
                 }
             }
-        }
-
-        private static int CompareByRepairThenInt(Recipe left, Recipe right)
-        {
-            if (left.isRepair != right.isRepair) return left.isRepair ? 1 : -1;
-            return left.INT.CompareTo(right.INT);
         }
 
         private static bool IsEligible(Recipe recipe)

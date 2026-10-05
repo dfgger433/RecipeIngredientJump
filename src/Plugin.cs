@@ -10,7 +10,7 @@ namespace CasualtiesUnknown.RecipeIngredientJump
     {
         public const string PluginGuid = "com.casualtiesunknown.recipeingredientjump";
         public const string PluginName = "材料跳转配方";
-        public const string PluginVersion = "1.0.7";
+        public const string PluginVersion = "1.0.8";
 
         public static RecipeIngredientJumpPlugin Instance;
         internal static ManualLogSource Log;
