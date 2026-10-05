@@ -147,11 +147,11 @@ dotnet build -c Release
 
 本项目使用 AI 大语言模型协助编写。
 
-代码：DeepSeek（`deepseek-v4-flash-vision-exp`）
+代码：[DeepSeek](https://www.deepseek.com)（`deepseek-v4-flash-vision-exp`）
 
-按钮与列表风格参考：EMI for CU（exmeow）
+按钮与列表风格参考：[EMI for CU](https://github.com/Exmeow/EMI_for_CU)（exmeow）
 
-原生 UI 风格参考：NativeUILib（Dylanvip2024，MIT）
+原生 UI 风格参考：[NativeUILib](https://github.com/Dylanvip2024/NativeUILib)（Dylanvip2024，MIT）
 
 ## 许可证
 

@@ -147,11 +147,11 @@ On success the DLL is copied to `BepInEx/plugins/RecipeIngredientJump/` automati
 
 This project was developed with the assistance of an AI large language model.
 
-Code: DeepSeek (`deepseek-v4-flash-vision-exp`)
+Code: [DeepSeek](https://www.deepseek.com) (`deepseek-v4-flash-vision-exp`)
 
-Button and list style reference: EMI for CU (exmeow)
+Button and list style reference: [EMI for CU](https://github.com/Exmeow/EMI_for_CU) (exmeow)
 
-Native UI style reference: NativeUILib (Dylanvip2024, MIT)
+Native UI style reference: [NativeUILib](https://github.com/Dylanvip2024/NativeUILib) (Dylanvip2024, MIT)
 
 ## License
 
