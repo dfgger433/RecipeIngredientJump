@@ -4,6 +4,8 @@
 
 Chinese: [README.md](README.md)
 
+Repository: <https://github.com/dfgger433/RecipeIngredientJump>
+
 ## Overview
 
 This plugin makes navigating recipes on the crafting screen much easier:
@@ -46,6 +48,8 @@ A "USES" button is added on the right side of the crafting panel (automatically 
 - Shows "NO USAGE RECIPES" when there is nothing to list
 
 ## Installation
+
+Download the latest `RecipeIngredientJump.dll` (or the zip) from [Releases](https://github.com/dfgger433/RecipeIngredientJump/releases).
 
 1. Install **BepInEx 5.4.x (Mono)**
 2. Place `RecipeIngredientJump.dll` at:

@@ -4,6 +4,8 @@
 
 English: [README-en.md](README-en.md)
 
+仓库：<https://github.com/dfgger433/RecipeIngredientJump>
+
 ## 简介
 
 本插件为游戏制作界面提供更顺手的配方导航：
@@ -46,6 +48,8 @@ English: [README-en.md](README-en.md)
 - 没有用途时显示「没有用途配方」
 
 ## 安装
+
+从 [Releases](https://github.com/dfgger433/RecipeIngredientJump/releases) 下载最新的 `RecipeIngredientJump.dll`（或解压 zip 后使用）。
 
 1. 安装 **BepInEx 5.4.x（Mono）**
 2. 将 `RecipeIngredientJump.dll` 放入：
