@@ -27,14 +27,7 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             {
                 if (string.IsNullOrEmpty(requirement.specificId)) return candidates;
 
-                foreach (var recipe in Recipes.recipes)
-                {
-                    if (!IsEligible(recipe)) continue;
-                    if (recipe.result.id != requirement.specificId) continue;
-                    if (recipe.result.isLiquid != requirement.isLiquid) continue;
-
-                    candidates.Add(recipe);
-                }
+                AddProducers(candidates, requirement.specificId, requirement.isLiquid);
 
                 return candidates;
             }
@@ -44,14 +37,7 @@ namespace CasualtiesUnknown.RecipeIngredientJump
             string exampleId = FindExampleId(requirement.quality.id);
             if (!string.IsNullOrEmpty(exampleId))
             {
-                foreach (var recipe in Recipes.recipes)
-                {
-                    if (!IsEligible(recipe)) continue;
-                    if (recipe.result.id != exampleId) continue;
-                    if (recipe.result.isLiquid != requirement.isLiquid) continue;
-
-                    candidates.Add(recipe);
-                }
+                AddProducers(candidates, exampleId, requirement.isLiquid);
             }
 
             var others = new List<Recipe>();
@@ -64,16 +50,42 @@ namespace CasualtiesUnknown.RecipeIngredientJump
                 others.Add(recipe);
             }
 
-            others.Sort((a, b) => a.INT.CompareTo(b.INT));
+            others.Sort(CompareByRepairThenInt);
             candidates.AddRange(others);
 
             return candidates;
         }
 
+        // 普通配方优先；修理配方（如「电路板修复」）排在后面，
+        // 这样只存在修理产出（例如电路板）时点击材料仍能跳转。
+        private static void AddProducers(List<Recipe> target, string id, bool isLiquid)
+        {
+            for (int pass = 0; pass < 2; pass++)
+            {
+                bool repairPass = pass == 1;
+
+                foreach (var recipe in Recipes.recipes)
+                {
+                    if (!IsEligible(recipe)) continue;
+                    if (recipe.isRepair != repairPass) continue;
+                    if (recipe.result.id != id) continue;
+                    if (recipe.result.isLiquid != isLiquid) continue;
+                    if (target.Contains(recipe)) continue;
+
+                    target.Add(recipe);
+                }
+            }
+        }
+
+        private static int CompareByRepairThenInt(Recipe left, Recipe right)
+        {
+            if (left.isRepair != right.isRepair) return left.isRepair ? 1 : -1;
+            return left.INT.CompareTo(right.INT);
+        }
+
         private static bool IsEligible(Recipe recipe)
         {
             if (recipe?.result == null) return false;
-            if (recipe.isRepair) return false;
             if (!recipe.visible) return false;
             return true;
         }

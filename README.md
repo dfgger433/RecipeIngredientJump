@@ -12,7 +12,7 @@ English: [README-en.md](README-en.md)
 - 同一材料有多个配方时，悬停图标显示缩小版配方页
 - 右侧「用途」按钮：查看当前配方产物可以用于哪些配方
 
-插件版本：`1.0.6`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
+插件版本：`1.0.7`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
 
 ## 功能与使用
 
@@ -22,6 +22,7 @@ English: [README-en.md](README-en.md)
 
 - 支持具体材料（如「绳子」）与性质类需求（如「任意切割工具」「任意液体」，使用游戏内置示例物品查找配方）
 - 原材料（没有任何可见配方产出它）点击后不跳转
+- 产出配方包含修理配方（如「电路板修复」）；同一物品既有普通配方又有修理配方时优先跳普通配方
 - 只切换右侧详情，不会重建或滚动左侧配方列表
 - 目标配方被搜索/分类筛选隐藏时也能直接跳转（左侧列表保持原样）
 
@@ -52,7 +53,7 @@ English: [README-en.md](README-en.md)
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. 启动游戏，日志出现 `材料跳转配方 v1.0.6 已加载` 即安装成功
+3. 启动游戏，日志出现 `材料跳转配方 v1.0.7 已加载` 即安装成功
 
 ## 配置
 

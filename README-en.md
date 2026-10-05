@@ -12,7 +12,7 @@ This plugin makes navigating recipes on the crafting screen much easier:
 - When an ingredient has multiple producer recipes, hover an icon to see a scaled-down recipe page
 - A "USES" button on the right: see which recipes consume the result of the currently selected recipe
 
-Version: `1.0.6`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
+Version: `1.0.7`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
 
 ## Features
 
@@ -22,6 +22,7 @@ In the requirements list on the crafting screen, click any ingredient (the whole
 
 - Works for specific ingredients (e.g. `rope`) and quality requirements (e.g. "any cutting tool", "any liquid"; the game's built-in example item is used to find a recipe)
 - Raw materials (no visible producer recipe) do nothing when clicked
+- Repair recipes count as producers (e.g. the circuit board repair recipe); when an item has both a normal and a repair recipe, the normal one is preferred
 - Only the detail panel is switched; the left recipe list is never rebuilt or scrolled
 - Works even when the target recipe is hidden by the search/category filter (the left list stays as-is)
 
@@ -52,7 +53,7 @@ A "USES" button is added on the right side of the crafting panel (automatically 
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. Launch the game; the log line `材料跳转配方 v1.0.6 已加载` means it loaded successfully
+3. Launch the game; the log line `材料跳转配方 v1.0.7 已加载` means it loaded successfully
 
 ## Configuration
 
