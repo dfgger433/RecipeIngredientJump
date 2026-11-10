@@ -14,7 +14,9 @@ English: [README-en.md](README-en.md)
 - 同一材料有多个配方时，悬停图标显示缩小版配方页
 - 右侧「用途」按钮：查看当前配方产物可以用于哪些配方
 
-插件版本：`1.0.9`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
+插件版本：`1.1.0`　插件 GUID：`com.casualtiesunknown.recipeingredientjump`
+
+支持 **Steam 正式版（v1.0）** 与 **Demo**（同一 DLL 通用）。
 
 ## 功能与使用
 
@@ -58,7 +60,7 @@ English: [README-en.md](README-en.md)
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. 启动游戏，日志出现 `材料跳转配方 v1.0.9 已加载` 即安装成功
+3. 启动游戏，日志出现 `材料跳转配方 v1.1.0 已加载` 即安装成功
 
 ## 配置
 
@@ -112,6 +114,7 @@ foreach (RecipeUsage usage in usages)
 
 ## 兼容性
 
+- **游戏版本**：支持 Steam 正式版（v1.0）与 Demo，同一 DLL 通用（两者 `Assembly-CSharp` 的插件所需接口已核对一致）
 - **EMI for CU**：用途按钮自动排在 EMI 的「配方 / 合成树 / 图鉴」标签下方，不会重叠
 - **无额外依赖**：悬停预览卡片的原生 UI 风格为插件自带实现（贴图/字体取自游戏本体，样式规范参考 NativeUILib），**不需要**安装 NativeUILib 或其它前置模组
 - **QoL Unknown / ItemCountDisplay**：本插件只追加 TMP link 与自己创建的图标，不修改其它 mod 的对象
@@ -135,7 +138,7 @@ foreach (RecipeUsage usage in usages)
   `UnityEngine.TextRenderingModule.dll`、`Unity.TextMeshPro.dll`、`Assembly-CSharp.dll`
 - `BepInEx\core` 下的 DLL：`BepInEx.dll`、`0Harmony.dll`
 
-`RecipeIngredientJump.csproj` 中的 `GameRoot` 指向游戏根目录，默认值 `..\..`（仓库位于游戏目录的 `mods/RecipeIngredientJump/` 时可用）。编译：
+`RecipeIngredientJump.csproj` 中的 `GameRoot` 指向游戏根目录，默认值 `..\..`（仓库位于游戏目录的 `mods/RecipeIngredientJump/` 时可用，正式版与 Demo 均可）。编译：
 
 ```powershell
 dotnet build -c Release

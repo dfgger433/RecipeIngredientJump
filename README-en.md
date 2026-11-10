@@ -14,7 +14,9 @@ This plugin makes navigating recipes on the crafting screen much easier:
 - When an ingredient has multiple producer recipes, hover an icon to see a scaled-down recipe page
 - A "USES" button on the right: see which recipes consume the result of the currently selected recipe
 
-Version: `1.0.9`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
+Version: `1.1.0`　Plugin GUID: `com.casualtiesunknown.recipeingredientjump`
+
+Supports both the **Steam release (v1.0)** and the **Demo** (the same DLL works for both).
 
 ## Features
 
@@ -58,7 +60,7 @@ Download the latest `RecipeIngredientJump.dll` (or the zip) from [Releases](http
 BepInEx/plugins/RecipeIngredientJump/RecipeIngredientJump.dll
 ```
 
-3. Launch the game; the log line `材料跳转配方 v1.0.9 已加载` means it loaded successfully
+3. Launch the game; the log line `材料跳转配方 v1.1.0 已加载` means it loaded successfully
 
 ## Configuration
 
@@ -112,6 +114,7 @@ foreach (RecipeUsage usage in usages)
 
 ## Compatibility
 
+- **Game versions**: supports both the Steam release (v1.0) and the Demo with the same DLL (the `Assembly-CSharp` members used by this plugin were verified to match)
 - **EMI for CU**: the uses button is automatically placed below EMI's "RECIPE / TREE / CATALOG" tabs, no overlap
 - **No extra dependencies**: the native UI look of the hover preview is implemented in-house (sprites and font come from the game itself; style conventions referenced from NativeUILib), so **NativeUILib does not need to be installed**
 - **QoL Unknown / ItemCountDisplay**: this plugin only appends TMP links and its own icons; it never modifies other mods' objects
